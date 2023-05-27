@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
 
 function ListTodos() {
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState([]);
+
   const getTodos = async () => {
     try {
       const res = await fetch("http://localhost:5000/todos");
@@ -14,8 +15,10 @@ function ListTodos() {
 
   useEffect(() => {
     getTodos();
-  }, []);
+  });
+
   console.log(todos);
+
   return (
     <Fragment>
       <h2>Basic Table</h2>
@@ -33,7 +36,15 @@ function ListTodos() {
         </thead>
         <tbody>
           {todos.map((todo) => {
-            return <tr>{todo.description}</tr>;
+            return (
+              <tr key={todo.todo_id}>
+                <td>{todo.description}</td>
+                <td>Edit</td>
+                <td>
+                  <button className="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>
