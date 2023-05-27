@@ -45,3 +45,16 @@ app.get("/todos/:id", async (req, res) => {
 });
 
 //update todo
+app.put("/todos/:id", async (req, res) => {
+  try {
+    const { description } = req.body;
+    const { id } = req.params;
+    const updatedTodo = await pool.query(
+      "UPDATE todo SET description = $1 WHERE todo_id = $2",
+      [description, id]
+    );
+    res.json(updatedTodo);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
